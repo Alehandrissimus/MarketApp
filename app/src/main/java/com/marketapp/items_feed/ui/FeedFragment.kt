@@ -1,5 +1,6 @@
 package com.marketapp.items_feed.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,12 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.marketapp.AppApplication
 import com.marketapp.R
 import com.marketapp.databinding.FragmentFeedBinding
 import com.marketapp.items_feed.data.models.FeedItemModel
 import com.marketapp.shared.navigation.BaseFragment
+import com.marketapp.shared.network.ApiService
+import com.marketapp.shared.network.HeaderInterceptor
 import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -40,6 +48,11 @@ class FeedFragment : BaseFragment() {
 
     private val coroutineScope = CoroutineScope(Job())
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (context.applicationContext as AppApplication).appComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,26 +75,17 @@ class FeedFragment : BaseFragment() {
         coroutineScope.cancel()
     }
 
+    private fun setupObserver() {
+        feedViewModel.loadFeed()
+        feedViewModel.feedState.observe(viewLifecycleOwner, ::showFeedResults)
+    }
+
     private fun setupRecycleView() {
         feedAdapter = FeedRVAdapter(navigator::openItemDetailsFragment)
         binding.rvFeed.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = feedAdapter
         }
-
-        feedAdapter.submitList(jsonRawDecode())
-    }
-
-    //TODO VM and loading
-    private fun jsonRawDecode(): List<FeedItemModel> {
-        val itemsListType = object : TypeToken<List<FeedItemModel?>?>() {}.type
-
-        val sb = StringBuffer()
-        val br = BufferedReader(InputStreamReader(resources.openRawResource(R.raw.sample)))
-        var temp: String?
-        while (br.readLine().also { temp = it } != null) sb.append(temp)
-
-        return Gson().fromJson(sb.toString(), itemsListType)
     }
 
     private fun setupDebounce() {
@@ -101,8 +105,7 @@ class FeedFragment : BaseFragment() {
                         return@launch
 
                     if (searchText.isNotEmpty()) {
-                        //feedViewModel.searchItems(searchText)
-                        Log.d("TAG", "Searching for ${searchText}")
+                        feedViewModel.searchItems(searchText)
                     }
                 }
             }
@@ -114,36 +117,23 @@ class FeedFragment : BaseFragment() {
         binding.etFeedSearch.addTextChangedListener(watcher)
     }
 
-    private fun setupObserver() {
-        //feedViewModel.feedState.observe(viewLifecycleOwner, ::showFeedResults)
-    }
-
     private fun showFeedResults(feedState: FeedViewState) {
         when (feedState) {
             is FeedViewState.FeedSuccess -> {
-
+                binding.apply {
+                    pbFeed.visibility = View.GONE
+                    rvFeed.visibility = View.VISIBLE
+                }
+                feedAdapter.submitList(feedState.result)
             }
             is FeedViewState.FeedLoading -> {
-
+                binding.apply {
+                    pbFeed.visibility = View.VISIBLE
+                    rvFeed.visibility = View.GONE
+                }
             }
             is FeedViewState.FeedError -> {
-
             }
         }
     }
-
-    /*
-    private fun setupViewPager() {
-        val list = arrayListOf("asdasd", "asdas13123d")
-
-        binding.apply {
-            mainpager.adapter = FeedViewPagerAdapter(list)
-            TabLayoutMediator(mainTabLayout, mainpager) { tab, position ->
-                tab.text = list[position]
-            }.attach()
-        }
-    }
-
-     */
-
 }

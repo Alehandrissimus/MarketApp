@@ -47,10 +47,10 @@ data class FeedItemModel (
     var slots: Int? = null,
 
     @SerializedName("diff24h")
-    var diff24h: Int? = null,
+    var diff24h: Float? = null,
 
     @SerializedName("diff7days")
-    var diff7days: Int? = null,
+    var diff7days: Float? = null,
 
     @SerializedName("icon")
     var icon: String? = null,

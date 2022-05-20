@@ -1,9 +1,11 @@
 package com.marketapp.items_feed.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.marketapp.AppApplication
 import com.marketapp.databinding.FragmentDetailsBinding
 import com.marketapp.items_feed.data.models.FeedItemModel
 import com.marketapp.shared.navigation.BaseFragment
@@ -27,6 +29,10 @@ class DetailsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDetailsBinding
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (context.applicationContext as AppApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

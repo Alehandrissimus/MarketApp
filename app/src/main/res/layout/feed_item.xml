@@ -24,8 +24,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivFeed"
-            android:layout_width="66dp"
-            android:layout_height="66dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_launcher_foreground" />
 
     </LinearLayout>
