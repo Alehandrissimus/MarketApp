@@ -4,27 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.marketapp.AppApplication
-import com.marketapp.R
 import com.marketapp.databinding.FragmentFeedBinding
-import com.marketapp.items_feed.data.models.FeedItemModel
 import com.marketapp.shared.navigation.BaseFragment
-import com.marketapp.shared.network.ApiService
-import com.marketapp.shared.network.HeaderInterceptor
 import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 
@@ -121,6 +108,7 @@ class FeedFragment : BaseFragment() {
         when (feedState) {
             is FeedViewState.FeedSuccess -> {
                 binding.apply {
+                    errTvFeed.visibility = View.GONE
                     pbFeed.visibility = View.GONE
                     rvFeed.visibility = View.VISIBLE
                 }
@@ -128,11 +116,18 @@ class FeedFragment : BaseFragment() {
             }
             is FeedViewState.FeedLoading -> {
                 binding.apply {
+                    errTvFeed.visibility = View.GONE
                     pbFeed.visibility = View.VISIBLE
                     rvFeed.visibility = View.GONE
                 }
             }
             is FeedViewState.FeedError -> {
+                binding.apply {
+                    pbFeed.visibility = View.GONE
+                    rvFeed.visibility = View.GONE
+                    errTvFeed.visibility = View.VISIBLE
+                    errTvFeed.text = "Error while loading Feed: ${feedState.error}"
+                }
             }
         }
     }

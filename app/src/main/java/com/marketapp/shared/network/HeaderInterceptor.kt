@@ -11,7 +11,7 @@ class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
         val resp = chain.proceed(request).newBuilder()
-            .addHeader("x-api-key", "abobaabobus") // TODO secret
+            .addHeader("x-api-key", "aAeeRCzSeLI2KOVh") // TODO secret
             .build()
 
         logError(resp)

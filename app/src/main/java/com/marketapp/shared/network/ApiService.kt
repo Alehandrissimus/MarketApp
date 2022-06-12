@@ -28,7 +28,7 @@ interface ApiService {
         @Query("x-api-key") api: String
     ): List<FeedItemModel>
 
-    @GET("/api/v1/items/all?tags=Ammo,Magazines")
+    @GET("/api/v1/items/all?tags=Barter,Weapons")
     suspend fun getItemsByTest(
         @Query("x-api-key") api: String
     ): List<FeedItemModel>

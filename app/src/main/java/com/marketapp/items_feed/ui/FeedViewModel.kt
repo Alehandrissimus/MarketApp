@@ -1,5 +1,6 @@
 package com.marketapp.items_feed.ui
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.marketapp.items_feed.data.models.FeedItemModel
@@ -20,7 +21,7 @@ class FeedViewModel @Inject constructor(
     private val itemsScope = CoroutineScope(
         SupervisorJob() +
                 CoroutineExceptionHandler { _, throwable ->
-                    errorState.postValue("Error: $throwable")
+                    feedState.postValue(FeedViewState.FeedError("${throwable.message}"))
                 }
     )
 
@@ -50,5 +51,5 @@ class FeedViewModel @Inject constructor(
 sealed class FeedViewState {
     object FeedLoading : FeedViewState()
     data class FeedSuccess(val result: List<FeedItemModel>) : FeedViewState()
-    data class FeedError(val a: Int) : FeedViewState()
+    data class FeedError(val error: String) : FeedViewState()
 }

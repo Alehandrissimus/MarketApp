@@ -19,6 +19,9 @@ data class FeedItemModel (
     @SerializedName("shortName")
     var shortName: String? = null,
 
+    @SerializedName("tags")
+    var tags: List<String>? = null,
+
     @SerializedName("price")
     var price: Int? = null,
 
