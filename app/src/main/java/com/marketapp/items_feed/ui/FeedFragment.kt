@@ -4,11 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.marketapp.AppApplication
+import com.marketapp.R
 import com.marketapp.databinding.FragmentFeedBinding
 import com.marketapp.shared.navigation.BaseFragment
 import kotlinx.coroutines.*
@@ -55,6 +59,8 @@ class FeedFragment : BaseFragment() {
         setupRecycleView()
         setupDebounce()
         setupObserver()
+        setupOnClickListeners()
+        setupRVAdapterDataObserver()
     }
 
     override fun onDestroy() {
@@ -104,6 +110,70 @@ class FeedFragment : BaseFragment() {
         binding.etFeedSearch.addTextChangedListener(watcher)
     }
 
+    private fun setupOnClickListeners() {
+        binding.apply {
+            feedTableLl2.setOnClickListener {
+                hideFilterIcons()
+                val state = feedViewModel.filterTitles()
+                when(state) {
+                    FilterState.ASCENDING -> {
+                        ivFeedTableTitleFilter.visibility = View.VISIBLE
+                        ivFeedTableTitleFilter.background = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_arrow_drop_up_24, null)
+                    }
+                    FilterState.DESCENDING -> {
+                        ivFeedTableTitleFilter.visibility = View.VISIBLE
+                        ivFeedTableTitleFilter.background = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_arrow_drop_down_24, null)
+                    }
+                    FilterState.NOTHING -> {
+                        ivFeedTableTitleFilter.visibility = View.GONE
+                    }
+                }
+            }
+            feedTableLl3.setOnClickListener {
+                hideFilterIcons()
+                val state = feedViewModel.filterAvgPrice()
+                when(state) {
+                    FilterState.ASCENDING -> {
+                        ivFeedTableAvgpriceFilter.visibility = View.VISIBLE
+                        ivFeedTableAvgpriceFilter.background = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_arrow_drop_up_24, null)
+                    }
+                    FilterState.DESCENDING -> {
+                        ivFeedTableAvgpriceFilter.visibility = View.VISIBLE
+                        ivFeedTableAvgpriceFilter.background = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_arrow_drop_down_24, null)
+                    }
+                    FilterState.NOTHING -> {
+                        ivFeedTableAvgpriceFilter.visibility = View.GONE
+                    }
+                }
+            }
+            feedTableLl4.setOnClickListener {
+                hideFilterIcons()
+                val state = feedViewModel.filterChange()
+                when(state) {
+                    FilterState.ASCENDING -> {
+                        ivFeedTableChangeFilter.visibility = View.VISIBLE
+                        ivFeedTableChangeFilter.background = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_arrow_drop_up_24, null)
+                    }
+                    FilterState.DESCENDING -> {
+                        ivFeedTableChangeFilter.visibility = View.VISIBLE
+                        ivFeedTableChangeFilter.background = ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_arrow_drop_down_24, null)
+                    }
+                    FilterState.NOTHING -> {
+                        ivFeedTableChangeFilter.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
+
+    private fun hideFilterIcons() {
+        binding.apply {
+            ivFeedTableTitleFilter.visibility = View.GONE
+            ivFeedTableAvgpriceFilter.visibility = View.GONE
+            ivFeedTableChangeFilter.visibility = View.GONE
+        }
+    }
+
     private fun showFeedResults(feedState: FeedViewState) {
         when (feedState) {
             is FeedViewState.FeedSuccess -> {
@@ -113,6 +183,7 @@ class FeedFragment : BaseFragment() {
                     rvFeed.visibility = View.VISIBLE
                 }
                 feedAdapter.submitList(feedState.result)
+                binding.rvFeed.scrollToPosition(0)
             }
             is FeedViewState.FeedLoading -> {
                 binding.apply {
@@ -130,5 +201,28 @@ class FeedFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun setupRVAdapterDataObserver() {
+        feedAdapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                binding.rvFeed.scrollToPosition(0)
+            }
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                binding.rvFeed.scrollToPosition(0)
+            }
+            override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+                binding.rvFeed.scrollToPosition(0)
+            }
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.rvFeed.scrollToPosition(0)
+            }
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+                binding.rvFeed.scrollToPosition(0)
+            }
+            override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+                binding.rvFeed.scrollToPosition(0)
+            }
+        })
     }
 }

@@ -1,7 +1,8 @@
 package com.marketapp.items_feed.ui
 
-import android.graphics.drawable.TransitionDrawable
-import android.util.Log
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.marketapp.R
 import com.marketapp.databinding.FeedItemBinding
-import com.marketapp.items_feed.data.models.FeedItemModel
+import com.marketapp.models.FeedItemModel
+import java.text.DecimalFormat
 
 class FeedRVAdapter(private val callback: (FeedItemModel) -> Unit) :
     ListAdapter<FeedItemModel, FeedRVViewHolder>(FeedDiffs()) {
@@ -37,14 +37,24 @@ class FeedRVViewHolder(itemview: View, private val callback: (FeedItemModel) -> 
     private val binding = FeedItemBinding.bind(itemView)
 
     fun bind(feedItemModel: FeedItemModel) {
+        val formatter = DecimalFormat("#,###,###")
         binding.apply {
             tvFeedName.text = feedItemModel.name
             Glide.with(ivFeed)
                 .load(feedItemModel.icon)
-                //.transition(withCrossFade(DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()))
-                .placeholder(R.drawable.ic_launcher_foreground)
+                .dontAnimate()
                 .into(ivFeed)
-            tvFeedValue.text = feedItemModel.avg24hPrice.toString()
+            tvFeedValue.text = itemView.resources.getString(R.string.details_price_currency, formatter.format(feedItemModel.avg24hPrice))
+
+            val spanText24hDiff = SpannableString(itemView.resources.getString(R.string.details_price_change, formatter.format(feedItemModel.diff24h)))
+            feedItemModel.diff24h?.let { diff24h ->
+                if (diff24h > 0) {
+                    spanText24hDiff.setSpan(ForegroundColorSpan(itemView.resources.getColor(R.color.details_text_green)), 0, spanText24hDiff.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                } else if (diff24h <= 0) {
+                    spanText24hDiff.setSpan(ForegroundColorSpan(itemView.resources.getColor(R.color.white)), 0, spanText24hDiff.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
+            }
+            tvFeedAvg.text = spanText24hDiff
         }
         binding.containerFeedItem.setOnClickListener {
             callback(feedItemModel)

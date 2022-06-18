@@ -1,7 +1,6 @@
 package com.marketapp.shared.network
 
-import com.marketapp.items_feed.data.models.FeedItemModel
-import retrofit2.Response
+import com.marketapp.models.FeedItemModel
 import retrofit2.http.*
 
 interface ApiService {

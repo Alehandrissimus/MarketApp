@@ -12,4 +12,8 @@
     <color name="item_percent">#70A800</color>
     <color name="item_cost">#AEAEB0</color>
     <color name="item_text">#9A8861</color>
+    <color name="details_text_green">#608916</color>
+    <color name="details_text_blight">#28231a</color>
+    <color name="feed_text_gray">#8f9ba5</color>
+    <color name="feed_bg_gray">#1d1d1d</color>
 </resources>

@@ -2,8 +2,8 @@ package com.marketapp.shared.navigation
 
 import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
-import com.marketapp.items_feed.data.models.FeedItemModel
-import com.marketapp.items_feed.ui.DetailsFragment
+import com.marketapp.models.FeedItemModel
+import com.marketapp.item_details.ui.DetailsFragment
 import com.marketapp.items_feed.ui.FeedFragment
 
 class Navigator(

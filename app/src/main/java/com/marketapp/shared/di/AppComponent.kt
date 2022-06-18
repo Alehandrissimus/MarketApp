@@ -1,6 +1,6 @@
 package com.marketapp.shared.di
 
-import com.marketapp.items_feed.ui.DetailsFragment
+import com.marketapp.item_details.ui.DetailsFragment
 import com.marketapp.items_feed.ui.FeedFragment
 import dagger.Component
 import javax.inject.Singleton

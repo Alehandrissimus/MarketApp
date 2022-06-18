@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/containerFeedItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:foreground="?attr/selectableItemBackground"
     android:background="@color/item_bg"
-    android:padding="2dp"
-    android:id="@+id/containerFeedItem">
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="2dp">
 
     <LinearLayout
         android:id="@+id/ll1Feed"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:background="@color/item_fg"
-        android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ll2Feed"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,20 +33,21 @@
     <LinearLayout
         android:id="@+id/ll2Feed"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_marginStart="4dp"
         android:background="@color/item_fg"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ll1Feed"
         app:layout_constraintEnd_toStartOf="@id/ll3Feed"
+        app:layout_constraintStart_toEndOf="@+id/ll1Feed"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvFeedName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="12dp"
             android:text="@string/app_name"
             android:textColor="@color/item_text" />
 
@@ -55,46 +56,47 @@
     <LinearLayout
         android:id="@+id/ll3Feed"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.2"
-        android:layout_height="100dp"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="80dp"
         android:layout_marginStart="4dp"
         android:background="@color/item_fg"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ll4Feed"
         app:layout_constraintStart_toEndOf="@+id/ll2Feed"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ll4Feed">
+        app:layout_constraintWidth_percent="0.2">
 
         <TextView
             android:id="@+id/tvFeedValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/item_text"
-            tools:text="VADASDSDADSAD" />
+            android:textColor="@color/white"
+            tools:text="14 000P" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll4Feed"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.15"
-        android:layout_height="100dp"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_height="80dp"
         android:layout_marginStart="4dp"
         android:background="@color/item_fg"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ll3Feed"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintWidth_percent="0.15">
 
         <TextView
             android:id="@+id/tvFeedAvg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/item_text"
-            tools:text="VADASDSDADSAD" />
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            tools:text="-25%" />
 
     </LinearLayout>
 

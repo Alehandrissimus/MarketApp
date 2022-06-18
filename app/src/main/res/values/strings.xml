@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">MarketApp</string>
     <string name="search_hint">Search for items</string>
+    <string name="details_flea_price">Flea price</string>
+    <string name="last_lowest_price">Last lowest price</string>
+    <string name="details_price_per_slot">Price per slot</string>
+    <string name="details_sell_to_trader">Sell to trader</string>
+    <string name="details_average_price">Average price</string>
+    <string name="details_price_difference">Price difference</string>
+    <string name="details_slots">(%d Slots)</string>
+    <string name="details_trader_price">%s%s ~ %s₽</string>
+    <string name="details_price_currency">%s₽</string>
+    <string name="details_price_change">%s%%</string>
+    <string name="feed_title">Title</string>
+    <string name="feed_icon">Icon</string>
+    <string name="feed_avg_price">Avg Price</string>
+    <string name="feed_24h_change">24h Change</string>
 </resources>

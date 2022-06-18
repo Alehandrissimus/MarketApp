@@ -1,4 +1,4 @@
-package com.marketapp.items_feed.data.models
+package com.marketapp.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -43,6 +43,9 @@ data class FeedItemModel (
     @SerializedName("traderPriceCur")
     var traderPriceCur: String? = null,
 
+    @SerializedName("traderPriceRub")
+    var traderPriceRub: Int? = null,
+
     @SerializedName("updated")
     var updated: String? = null,
 
@@ -72,4 +75,6 @@ data class FeedItemModel (
 
     @SerializedName("reference")
     var reference: String? = null,
+
+    var isFavourited: Boolean = false,
 ) : Parcelable
